@@ -24,37 +24,35 @@ with st.form("student_form"):
 
     with c1:
         maths = st.number_input("Maths", 0, 100, 0)
-
     with c2:
         python_marks = st.number_input("Python", 0, 100, 0)
-
     with c3:
         english = st.number_input("English", 0, 100, 0)
 
     st.markdown("#### Academic & Placement Details")
-    c4, c5, c6 = st.columns(3)
+    c4, c5 = st.columns(2)
 
     with c4:
         cgpa = st.number_input(
-            "CGPA (0–10)", min_value=0.0,
-            max_value=10.0, value=0.0, step=0.1
+            "CGPA (0–10)",
+            min_value=0.0,
+            max_value=10.0,
+            value=8.5,
+            step=0.1
         )
 
     with c5:
-        percentage = st.number_input(
-            "Overall Percentage (0–100)",
-            min_value=0.0, max_value=100.0,
-            value=0.0, step=0.5
-        )
-
-    with c6:
         backlogs = st.number_input(
-            "Active Backlogs", min_value=0,
-            max_value=100, value=0, step=1
+            "Active Backlogs",
+            min_value=0,
+            max_value=100,
+            value=0,
+            step=1
         )
 
     submitted = st.form_submit_button(
-        "Analyze Student", use_container_width=True
+        "Analyze Student",
+        use_container_width=True
     )
 
 if submitted:
@@ -64,6 +62,9 @@ if submitted:
         marks = [maths, python_marks, english]
         total = sum(marks)
         average = total / len(marks)
+
+        # Percentage is automatically calculated from subject marks
+        percentage = average
 
         result = "Fail" if any(m < 35 for m in marks) else "Pass"
 
@@ -82,11 +83,13 @@ if submitted:
         else:
             grade = "E"
 
-        eligibility = (
-            "Eligible"
-            if cgpa >= 7.0 and percentage >= 60.0 and backlogs == 0
-            else "Not Eligible"
-        )
+        # Check each placement condition separately
+        cgpa_ok = cgpa >= 7.0
+        percentage_ok = percentage >= 60.0
+        backlogs_ok = backlogs == 0
+
+        eligible = cgpa_ok and percentage_ok and backlogs_ok
+        eligibility = "Eligible" if eligible else "Not Eligible"
 
         student = {
             "Student Name": name.strip(),
@@ -103,13 +106,13 @@ if submitted:
             "Placement Status": eligibility
         }
 
-        # Replace an existing student's record if the name matches
-        existing = [
+        # Replace existing record if the name matches
+        st.session_state.students = [
             s for s in st.session_state.students
-            if s["Student Name"].casefold() != name.strip().casefold()
+            if s["Student Name"].casefold()
+            != name.strip().casefold()
         ]
-        existing.append(student)
-        st.session_state.students = existing
+        st.session_state.students.append(student)
 
         st.success(f"Analysis completed for {name.strip()}!")
 
@@ -123,15 +126,17 @@ if st.session_state.students:
         "Select student to view report",
         [s["Student Name"] for s in students]
     )
+
     student = next(
-        s for s in students if s["Student Name"] == selected_name
+        s for s in students
+        if s["Student Name"] == selected_name
     )
 
     st.subheader(f"Results: {student['Student Name']}")
 
     a, b, c, d = st.columns(4)
     a.metric("Total Marks", f"{student['Total']} / 300")
-    b.metric("Average", f"{student['Average']}%")
+    b.metric("Average / Percentage", f"{student['Percentage']}%")
     c.metric("Grade", student["Grade"])
     d.metric("Result", student["Result"])
 
@@ -163,6 +168,7 @@ if st.session_state.students:
     y.info(f"📉 Lowest Marks: {lowest} — {subject_marks[lowest]}")
 
     st.subheader("💼 Placement Analysis")
+
     p1, p2, p3 = st.columns(3)
     p1.metric("CGPA", f"{student['CGPA']} / 10")
     p2.metric("Overall Percentage", f"{student['Percentage']}%")
@@ -172,16 +178,31 @@ if st.session_state.students:
         st.success("✅ Placement Status: Eligible")
     else:
         st.warning("⚠️ Placement Status: Not Eligible")
+        st.write("Conditions to qualify:")
+
+        st.write(
+            f"{'✅' if student['CGPA'] >= 7.0 else '❌'} "
+            "CGPA must be at least 7.0"
+        )
+        st.write(
+            f"{'✅' if student['Percentage'] >= 60.0 else '❌'} "
+            "Percentage must be at least 60%"
+        )
+        st.write(
+            f"{'✅' if student['Backlogs'] == 0 else '❌'} "
+            "Active backlogs must be zero"
+        )
 
     st.caption(
-        "Demo criteria: CGPA ≥ 7.0, percentage ≥ 60%, "
-        "and zero active backlogs. Actual company rules may differ."
+        "Demo criteria only. Actual company placement rules may differ. "
+        "Percentage is calculated from the three subject marks entered."
     )
 
     st.divider()
     st.header("🏆 Class Topper")
 
     topper = max(students, key=lambda s: s["Total"])
+
     t1, t2, t3 = st.columns(3)
     t1.metric("Topper Name", topper["Student Name"])
     t2.metric("Topper Total", f"{topper['Total']} / 300")
@@ -195,7 +216,8 @@ if st.session_state.students:
     )
 
     eligible_count = sum(
-        s["Placement Status"] == "Eligible" for s in students
+        s["Placement Status"] == "Eligible"
+        for s in students
     )
 
     st.header("📈 Placement Summary")
@@ -208,4 +230,7 @@ if st.session_state.students:
         st.session_state.students = []
         st.rerun()
 else:
-    st.info("Enter student details above and click Analyze Student to view results.")
+    st.info(
+        "Enter student details above and click Analyze Student "
+        "to view results."
+    )
