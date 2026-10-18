@@ -1,54 +1,35 @@
+# 🎓 Student Performance & Placement Eligibility Analyzer
 
-# 🎓 Student Marks Analyzer
-
-A Python-based project to analyze student marks, calculate academic performance, assign grades, and identify the class topper.
+A Python-based project that analyzes students' academic performance and checks placement eligibility using CGPA, overall percentage, and active backlogs.
 
 ## 📌 About the Project
 
-Student Marks Analyzer is a beginner-friendly Python application that evaluates students' academic performance in three subjects: Maths, Python, and English.
-
-The program calculates total marks and average marks, determines Pass or Fail status, assigns grades, displays the highest and lowest subject marks, and identifies the class topper based on total marks.
+The Student Performance & Placement Eligibility Analyzer is designed to help students understand their academic performance and assess whether they meet example placement criteria. It calculates total marks, average, grades, and pass/fail status, identifies the class topper, and generates a placement eligibility summary.
 
 ## ✨ Features
 
-- **Multiple Student Analysis:** Enter and analyze details for multiple students.
-- **Total Marks Calculation:** Calculates total marks out of 300.
-- **Average Calculation:** Computes the average marks for each student.
-- **Pass/Fail Result:** A student passes only if they score at least 35 marks in every subject.
-- **Automatic Grade Assignment:** Assigns grades based on the student's average.
-- **Highest Subject Marks:** Displays the subject in which the student scored the highest marks.
-- **Lowest Subject Marks:** Displays the subject in which the student scored the lowest marks.
-- **Class Topper Identification:** Finds the student with the highest total marks.
-- **Input Validation:** Prevents invalid marks and handles non-numeric input.
-- **Student Result Report:** Displays each student's marks, total, average, result, and grade.
-
-## 🏆 Grading System
-
-| Average Marks | Grade |
-|---|---|
-| 90–100 | A+ |
-| 80–89.99 | A |
-| 70–79.99 | B |
-| 60–69.99 | C |
-| 50–59.99 | D |
-| Below 50 | E |
-| Failed in any subject | F |
-
-**Note:** Students scoring below 35 in any subject receive an F grade.
+- Accepts marks for multiple students.
+- Calculates total marks and average.
+- Assigns grades based on academic performance.
+- Checks pass/fail status.
+- Identifies highest and lowest subject marks.
+- Finds the class topper.
+- Checks placement eligibility using CGPA, percentage, and active backlogs.
+- Displays eligible and ineligible student counts.
+- Validates user input.
 
 ## 🛠️ Technologies Used
 
 - Python 3
-- Lists and dictionaries
-- Loops and conditional statements
-- Functions such as `sum()`, `max()`, and `min()`
-- Exception handling
-- User input and output
+- Conditional Statements
+- Loops
+- Lists and Dictionaries
+- Exception Handling
 
 ## ▶️ How to Run
 
-1. Install Python 3 on your computer.
-2. Download or clone this repository.
+1. Install Python 3.
+2. Clone or download this repository.
 3. Open the project folder in VS Code or a terminal.
 4. Run the following command:
 
@@ -56,43 +37,22 @@ The program calculates total marks and average marks, determines Pass or Fail st
 python marks_analyzer.py
 ```
 
-5. Enter the student name and marks for Maths, Python, and English.
-6. Choose whether to add another student.
-7. View all student results and the class topper.
+5. Enter the student's marks, CGPA, overall percentage, and active backlogs when prompted.
 
-## 💻 Sample Output
+## 📊 Placement Eligibility Criteria
 
-```text
-===== ALL STUDENT RESULTS =====
+The current demonstration uses these example criteria:
 
-Student Name: Ravi
-Total Marks: 270 / 300
-Average: 90.0
-Result: Pass
-Grade: A+
-Highest Marks: Maths - 95
-Lowest Marks: English - 85
+- Minimum CGPA: 7.0
+- Minimum overall percentage: 60%
+- Maximum active backlogs: 0
 
-===== CLASS TOPPER =====
-Name: Ravi
-Total Marks: 270 / 300
-Average: 90.0
-```
+**Note:** These are sample values for demonstration purposes. Actual placement requirements vary by company.
 
-*Sample values are for illustration; actual results depend on the marks entered.*
+## 🎯 Project Objective
 
-## 🎯 Learning Outcomes
-
-- Practiced Python programming fundamentals.
-- Learned to store and process multiple students' data.
-- Applied validation and exception handling.
-- Implemented academic grading logic.
-- Compared student performance to identify the class topper.
+To combine student marks analysis and placement eligibility checking in one beginner-friendly Python application.
 
 ## 👩‍💻 Author
 
-**Hemachandrika**
-
----
-
-*This project was developed as a Python programming learning project.*
+**Hema Chandrika Peteti**
